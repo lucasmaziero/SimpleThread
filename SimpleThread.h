@@ -25,7 +25,11 @@ class SimpleThread
 		***************************************************************************/
 		SimpleThread();
 		SimpleThread(unsigned long interval_millis);
+		void setInterval(unsigned long _interval_millis);
+		boolean buttonIsPressTimeout(int pin, unsigned long intervalPress);
 		boolean check(void);
+		void start(void);
+		void stop(void);
 		void reset(void);
 		
 		/**************************************************************************
@@ -42,6 +46,7 @@ class SimpleThread
 		variables private    
 		***************************************************************************/
 		unsigned long  previous_millis, interval_millis;
+		boolean flagStart = true;
 };
 
 #endif

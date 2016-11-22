@@ -24,17 +24,39 @@ SimpleThread::SimpleThread(unsigned long _interval_millis)
 	interval_millis = _interval_millis;	
 }
 
+void SimpleThread::setInterval(unsigned long _interval_millis)
+{	
+	interval_millis = _interval_millis;	
+}
+
+void SimpleThread::start(void)
+{
+   if(!flagStart) reset();
+   flagStart = true; 
+}
+
+void SimpleThread::stop(void)
+{
+	flagStart = false;
+}
+
 boolean SimpleThread::check(void)
 {
-  unsigned long now = millis();
-  
-  if ( now - previous_millis >= interval_millis)
+  if(flagStart)
   {
-	previous_millis = now ; 
-    return (true);
-  }
+	unsigned long now = millis();
   
-  return (false);
+	if ( now - previous_millis >= interval_millis)
+	{
+		previous_millis = now ; 
+		return (true);
+	} 
+	return (false);
+  }
+  else
+  {
+	return (false);
+  }
 }
 
 void SimpleThread::reset(void) 
@@ -42,4 +64,21 @@ void SimpleThread::reset(void)
 	previous_millis = millis();
 }
 
-
+boolean SimpleThread::buttonIsPressTimeout(int pin, unsigned long intervalPress) 
+{
+	if(!digitalRead(pin))
+	{
+		setInterval(intervalPress);
+		start();
+		
+		if(check())
+		{
+			return (true);
+		}
+	}
+	else
+	{
+		stop();
+		return (false);
+	}
+}
