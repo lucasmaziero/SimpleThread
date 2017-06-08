@@ -1,18 +1,18 @@
 /**************************************************************************
-			This example sends a Serial message every 500 milliseconds       
+ This example sends a Serial message every 500 milliseconds       
 ***************************************************************************
-AUTOR: LUCAS MAZIERO - Eletrical Engineer                                                     
-E-MAIL: lucas.mazie.ro@hotmail.com 									  
-CIDADE: Santa Maria - Rio Grande do Sul - Brasil                                       
+ AUTOR: LUCAS MAZIERO - Electrical Engineer                                                     
+ E-MAIL: lucas.mazie.ro@hotmail.com 									  
+ IDADE: Santa Maria - Rio Grande do Sul - Brasil                                       
 ***************************************************************************
-Versão: 1.0                                                             
-Data: 26/03/2016                                                        
-Modificado: --/--/----                                                                                                                          
+ Versão: 1.0                                                             
+ Data: 26/03/2016                                                        
+ Modificado: --/--/----                                                                                                                          
 **************************************************************************/
 
 #include <SimpleThread.h> // Include the SimpleThread library
 
-SimpleThread serialThread = SimpleThread(500);  // Instantiate an instance
+SimpleThread serialThread(500);  // Instantiate an instance
 
 void setup() 
 {
