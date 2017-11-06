@@ -1,80 +1,109 @@
 /**************************************************************************
 LIBRARY THREAD(DELAY NOT LOCKED) FOR ESP8266 OR LINE AVR
 ***************************************************************************
-AUTOR: LUCAS MAZIERO - Electrical Engineer
-E-MAIL: lucas.mazie.ro@hotmail.com
-CIDADE: Santa Maria - Rio Grande do Sul - Brasil
+AUTHOR: Lucas Maziero - Electrical Engineer
+EMAIL: lucas.mazie.ro@hotmail.com or lucasmaziero@foxiot.com.br
+CITY: Santa Maria - Rio Grande do Sul - Brasil
+FUNTATION: Fox IoT (www.foxiot.com.br)
 ***************************************************************************
-Versão: 1.1
+Versão: 1.0.2
 Data: 26/03/2016
-Modificado: 24/03/2017
+Modificado: 05/11/2017
 ***************************************************************************
-BASE DO CODIGO: https://github.com/thomasfredericks/Metro-Arduino-Wiring
-***************************************************************************							
+Code base: BASE DO CODIGO: https://github.com/thomasfredericks/Metro-Arduino-Wiring
+***************************************************************************
 CHANGELOG:
-* 26/03/2016 (1.0v):
+* 26/03/2016 (1.0.0v):
     -> Initial version not have log :)
-* 24/03/2017 (1.1v):
+* 24/03/2017 (1.0.1v):
     -> Add new function "start", "stop" and "setInterval"
     -> Add new function "buttonIsPressTimeout" for use with
        button anti-debounce
+* 05/11/2017 (1.0.2v):
+    -> Add new versioning style x.x.x
+    -> Some improvements in general
 
 ***************************************************************************
-Copyright(2016-2017) by: Lucas Maziero.
+Copyright(c) by: Lucas Maziero.
 **************************************************************************/
+
 #include "SimpleThread.h"
 
-SimpleThread::SimpleThread()
+/**
+ * Constructor
+ * @param unsigned long interval_millis 	interval of overflow timer
+ */
+SimpleThread::SimpleThread(unsigned long interval_millis) : _interval_millis(interval_millis) 
 {
-	interval_millis = 1000; // default interval of 1000 milliseconds.
+	
 }
 
-SimpleThread::SimpleThread(unsigned long _interval_millis)
+/**
+ * Destructor
+ */
+SimpleThread::~SimpleThread()
 {
-	interval_millis = _interval_millis;
+
 }
 
-void SimpleThread::setInterval(unsigned long _interval_millis)
+/**
+ * SetInterval set interval of overflow timer
+ * @param unsigned long interval_millis 	interval of overflow timer
+ */
+void SimpleThread::setInterval(unsigned long interval_millis)
 {
-	interval_millis = _interval_millis;
+	_interval_millis = interval_millis;
 }
 
-void SimpleThread::start(void)
-{
-	if (!flagStart)
-		reset();
-	flagStart = true;
+/**
+ * Start init timer
+ */
+void SimpleThread::start()
+{	
+	if (!_flagStart) reset();
+	_flagStart = true;
 }
 
-void SimpleThread::stop(void)
+/**
+ * Stop timer
+ */
+void SimpleThread::stop()
 {
-	flagStart = false;
+	_flagStart = false;
 }
 
-boolean SimpleThread::check(void)
+/**
+ * Check verify overflow timer
+ * @return if true overflow if false not overflow
+ */
+bool SimpleThread::check()
 {
-	if (flagStart)
+	if (!_flagStart) return false;
+	
+	unsigned long now = millis();
+	if (now - _previous_millis >= _interval_millis)
 	{
-		unsigned long now = millis();
-		if (now - previous_millis >= interval_millis)
-		{
-			previous_millis = now;
-			return(true);
-		}
-		return(false);
+		_previous_millis = now;
+		return true;
 	}
-	else
-	{
-		return(false);
-	}
+	return false;
 }
 
-void SimpleThread::reset(void)
+/**
+ * Reset timer
+ */
+void SimpleThread::reset()
 {
-	previous_millis = millis();
+	_previous_millis = millis();
 }
 
-boolean SimpleThread::buttonIsPressTimeout(int pin, unsigned long intervalPress)
+/**
+ * Long button click
+ * @param int pin	pin of button
+ * @param unsigned long intervalPress 	interval of long click
+ * @return if true overflow of click
+ */
+bool SimpleThread::buttonIsPressTimeout(int pin, unsigned long intervalPress)
 {
 	if (!digitalRead(pin))
 	{
