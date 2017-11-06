@@ -1,5 +1,5 @@
 # SimpleThread
-SimpleThread uses millis() as a time base, so it becomes possible to emulate simple threads or perform everyday tasks without using delay (), so the processor is releasing to perform other tasks in that interval. Tested with ESP8266-12(LoLin) and Arduino-Uno.
+SimpleThread uses [millis()](https://www.arduino.cc/en/Reference/Millis) as a time base, so it becomes possible to emulate simple threads or perform everyday tasks without using [delay()](https://www.arduino.cc/en/Reference/Delay), so the processor is releasing to perform other tasks in that interval. Tested with ESP8266-12(LoLin) and Arduino-Uno.
 
 Compatible with the Arduino IDE 1.8.4 Library [SimpleThread](https://github.com/lucasmaziero/SimpleThread)
 
