@@ -10,29 +10,30 @@ Create a new folder called "SimpleThread" under the folder named "libraries" in 
 Create the folder "libraries" in case it does not exist yet. Place all the files in the "SimpleThread" folder.
 
 ## Usage
-To use the library in your own sketch, select it from *Sketch > Import Library*.
+To use the library in your on sketch, select it from *Sketch > Import Library*.
 
 ## Code example
 
 Code basic example for ESP8266 or ARDUINO see more here [examples](examples)
-```Arduino
+```c++
 #include <SimpleThread.h> // Include the SimpleThread library
 
-SimpleThread serialThread(500);  // Instantiate an instance
+SimpleThread serialThread(500); // Instantiate an instance
 
-void setup() 
+void setup()
 {
-	Serial.begin(115200); // Start the Serial communication
+  Serial.begin(115200); // Start the Serial communication
 }
 
-void loop() 
+void loop()
 {
-	if (serialThread.check()) // check if the metro has passed it's interval .
-	{ 
-		// Output all the analog readings seperated by a space character
-		Serial.print("Value read: ");
-		Serial.println(analogRead(A0));
-	}
+  if (serialThread.check())
+    // check if the metro has passed it's interval .
+  {
+    // Output all the analog readings seperated by a space character
+    Serial.print("Value read: ");
+    Serial.println(analogRead(A0));
+  }
 }
 ```
 ## License
